@@ -1,0 +1,3 @@
+/home/daniel/POC/Practise/CMakeFiles/edit_cache.dir
+/home/daniel/POC/Practise/CMakeFiles/rebuild_cache.dir
+/home/daniel/POC/Practise/CMakeFiles/DisplayImage.dir

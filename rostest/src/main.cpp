@@ -11,6 +11,7 @@ using std::cin;
 
 static const std::string OPENCV_WINDOW = "Image window";
 
+/*
 class ImageConverter
 {
     ros::NodeHandle nh_;
@@ -65,5 +66,11 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "image_converter");
     ImageConverter ic;
     ros::spin();
+    return 0;
+}
+*/
+
+int main()
+{
     return 0;
 }

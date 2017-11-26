@@ -3,6 +3,7 @@
 #include "ros/ros.h"
 #include "cv_bridge/cv_bridge.h"
 #include "image_transport/image_transport.h"
+#include "std_msgs/String.h"
 
 using std::cout;
 using std::endl;

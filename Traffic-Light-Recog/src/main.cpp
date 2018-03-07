@@ -66,38 +66,19 @@ void MatchingMethod( int, void* )
   else
     { matchLoc = maxLoc; }
 
-  // Multiple failed attempts at using masking to black out image
-  // Out of sake of time, for loop was used instead.
-  // Masking to be implemented in the future.
+  // Create binary mask and black destination image
+  cv::Mat mask = cv::Mat(img_display.size(), CV_8UC1, Scalar(0));
+  cv::Mat dstImage = cv::Mat::zeros(img_display.size(), img_display.type());
 
-  //rectangle( img_display, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
-  //cv::Mat srcImage = cv::imread(img_display,CV_LOAD_IMAGE_GRAYSCALE);
-  //cv::Mat mask = cv::Mat::zeros(srcImage.size(), srcImage.type());
-  //cv::Mat dstImage = cv::Mat::zeros(srcImage.size(), srcImage.type());
-  //cv::Rect rects = Rect(matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ));
-  //cv::rectangle(mask, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), cv::Scalar(255, 0, 0), 2, 8, 0 );
-  //mask(Rect(matchLoc.x, matchLoc.y, templ.cols, templ.rows)) = Scalar(255,255,255);
-  //srcImage.copyTo(dstImage, mask);
-  //rectangle( result, matchLoc, Point( matchLoc.x + templ.cols , matchLoc.y + templ.rows ), Scalar::all(0), 2, 8, 0 );
+  // Create rectangle in mask
+  mask(Rect(matchLoc.x, matchLoc.y, templ.cols, templ.rows)) = Scalar(255);
 
-  // Blacks out uninteresting parts of image
-  for (int i = 0; i < img_display.cols; i++) {
-    for (int j = 0; j < img_display.rows; j++) {
-      if (i > matchLoc.x && i < matchLoc.x + templ.cols && j > matchLoc.y && j < matchLoc.y + templ.rows) {
-
-      } else {
-        Vec3b color = img_display.at<Vec3b>(Point(i,j));
-        color[0] = 0;
-        color[1] = 0;
-        color[2] = 0;
-        img_display.at<Vec3b>(Point(i,j)) = color;
-      }
-    }
-  }
+  // Mask old image to new file
+  img_display.copyTo(dstImage, mask);
 
   // Converts image to HSV
   cv::Mat hsvImg, greenThreshold, redThreshold;
-  cvtColor(img_display, hsvImg, CV_BGR2HSV);
+  cvtColor(dstImage, hsvImg, CV_BGR2HSV);
 
   // Using H bounds and a higher V bound to look for a brighter light,
   // creates two thresholds, one for red, and one for green.
@@ -125,12 +106,12 @@ void MatchingMethod( int, void* )
   // Print out appropriate message according to which threshold
   // showed more color
   if (redThresholdPixels > greenThresholdPixels) {
-    
+    cout << "The traffic light is red" << endl;
   } else {
-
+    cout << "The traffic light is green" << endl;
   }
 
-  imshow( image_window, redThreshold );
+  imshow( image_window, dstImage );
   //imshow( result_window, dstImage );
 
   return;

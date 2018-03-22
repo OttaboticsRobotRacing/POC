@@ -20,14 +20,30 @@ void MatchingMethod( int, void* );
 int main( int argc, char** argv )
 {
   /// Load image and template
-  img = imread( argv[1], 1 );
-  templ = imread( argv[2], 1 );
+  templ = imread( argv[1], 1 );
+  VideoCapture stream(0);
+
+  if (!stream.isOpened()) {
+    cout << "cannot open camera";
+  }
 
   /// Create windows
   namedWindow( image_window, CV_WINDOW_AUTOSIZE );
-  namedWindow( result_window, CV_WINDOW_AUTOSIZE );
+  //namedWindow( result_window, CV_WINDOW_AUTOSIZE );
+  Mat frame;
 
-  MatchingMethod( 0, 0 );
+  for (;;) {
+    stream >> frame;
+    imshow(image_window, frame);
+    waitKey(0);
+    /*
+    if (waitKey(30) >= 0){ 
+      break;
+    }
+    */
+  }
+
+  //MatchingMethod( 0, 0 );
 
   waitKey(0);
   return 0;
@@ -111,7 +127,7 @@ void MatchingMethod( int, void* )
     cout << "The traffic light is green" << endl;
   }
 
-  imshow( image_window, dstImage );
+  //imshow( image_window, dstImage );
   //imshow( result_window, dstImage );
 
   return;

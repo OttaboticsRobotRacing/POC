@@ -7,6 +7,8 @@ import numpy as np
 import os
 import glob
 
+# TODO 'main' function
+# TODO undistort function taking in an image instead of image path
 # TODO name the result as a lens profile
 
 def make_directory(path):
